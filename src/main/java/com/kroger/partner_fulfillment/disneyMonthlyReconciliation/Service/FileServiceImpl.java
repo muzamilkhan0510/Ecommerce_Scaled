@@ -228,75 +228,75 @@ public class FileServiceImpl implements FileService {
     @Override
     public void copyResponderFileToSFTPLocal(String fileName) throws JSchException, SftpException {
 
-        JSch jschRead = new JSch();
-        JSch jschWrite = new JSch();
-        Session sessionRead = null;
-        Session sessionWrite = null;
-        System.out.println("Inside copy method");
+//         JSch jschRead = new JSch();
+//         JSch jschWrite = new JSch();
+//         Session sessionRead = null;
+//         Session sessionWrite = null;
+//         System.out.println("Inside copy method");
 
-        try {
-            System.out.println("Attempting to connect to " + remoteHost + " with username " + remoteUsername + " and key path " + remoteKeyPath);
-            sessionRead = jschRead.getSession(remoteUsername, remoteHost, 22);
-            jschRead.addIdentity(remoteKeyPath);
-            sessionRead.setConfig("StrictHostKeyChecking", "no");
-            sessionRead.connect();
+//         try {
+//             System.out.println("Attempting to connect to " + remoteHost + " with username " + remoteUsername + " and key path " + remoteKeyPath);
+//             sessionRead = jschRead.getSession(remoteUsername, remoteHost, 22);
+//             jschRead.addIdentity(remoteKeyPath);
+//             sessionRead.setConfig("StrictHostKeyChecking", "no");
+//             sessionRead.connect();
 
-        } catch (Exception e) {
-            System.out.println("Unable to connect to the remote sftp directory: " + e.getMessage());
-        }
+//         } catch (Exception e) {
+//             System.out.println("Unable to connect to the remote sftp directory: " + e.getMessage());
+//         }
 
-        try {
-            System.out.println("Attempting to connect to " + localHost + " with username " + localUsername + " and key path " + localKeyPath);
-            sessionWrite = jschWrite.getSession(localUsername, localHost, 22);
-            jschWrite.addIdentity(localKeyPath);
-            sessionWrite.setConfig("StrictHostKeyChecking", "no");
-            sessionWrite.connect();
-        } catch (Exception e) {
-            System.out.println("Unable to connect to the local sftp directory: " + e.getMessage());
-        }
+//         try {
+//             System.out.println("Attempting to connect to " + localHost + " with username " + localUsername + " and key path " + localKeyPath);
+//             sessionWrite = jschWrite.getSession(localUsername, localHost, 22);
+//             jschWrite.addIdentity(localKeyPath);
+//             sessionWrite.setConfig("StrictHostKeyChecking", "no");
+//             sessionWrite.connect();
+//         } catch (Exception e) {
+//             System.out.println("Unable to connect to the local sftp directory: " + e.getMessage());
+//         }
 
-        System.out.println("Connections Successful");
+//         System.out.println("Connections Successful");
 
-        if(sessionWrite != null && sessionRead != null) {
-            ChannelSftp channelRead = null;
-            ChannelSftp channelWrite = null;
+//         if(sessionWrite != null && sessionRead != null) {
+//             ChannelSftp channelRead = null;
+//             ChannelSftp channelWrite = null;
 
-            try {
-                System.out.println("Attempting to open read channel");
-                channelRead = (ChannelSftp)sessionRead.openChannel("sftp");
-                channelRead.connect();
+//             try {
+//                 System.out.println("Attempting to open read channel");
+//                 channelRead = (ChannelSftp)sessionRead.openChannel("sftp");
+//                 channelRead.connect();
 
-                System.out.println("Attempting to open write channel");
-                channelWrite = (ChannelSftp)sessionWrite.openChannel("sftp");
-                channelWrite.connect();
+//                 System.out.println("Attempting to open write channel");
+//                 channelWrite = (ChannelSftp)sessionWrite.openChannel("sftp");
+//                 channelWrite.connect();
 
-//                PipedInputStream pin = new PipedInputStream();
-//                PipedOutputStream pout = new PipedOutputStream(pin);
+// //                PipedInputStream pin = new PipedInputStream();
+// //                PipedOutputStream pout = new PipedOutputStream(pin);
 
-                String remotePathWithFileName = remotePathResponder.replace("{fileName}", fileName);
-                String localPathWithFileName = localPath.replace("{fileName}", fileName);
+//                 String remotePathWithFileName = remotePathResponder.replace("{fileName}", fileName);
+//                 String localPathWithFileName = localPath.replace("{fileName}", fileName);
 
-                System.out.println("Writing from " + remotePathWithFileName + " to " + localPathWithFileName);
-//                channelRead.get(remotePathWithFileName, pout);
-                InputStream srcInputStream = channelRead.get(remotePathWithFileName);
-                System.out.println("Reading complete!!!!");
-//                channelWrite.put(pin, localPathWithFileName);
-                channelWrite.put(srcInputStream, localPathWithFileName);
-                System.out.println("Writing complete!!!!");
-            } catch (Exception e) {
-                System.out.println("Unknown Error: " + e.getMessage());
-            } finally {
-                if(channelRead != null) {
-                    channelRead.disconnect();
-                }
-                if(channelWrite != null) {
-                    channelWrite.disconnect();
-                }
-            }
-        }
+//                 System.out.println("Writing from " + remotePathWithFileName + " to " + localPathWithFileName);
+// //                channelRead.get(remotePathWithFileName, pout);
+//                 InputStream srcInputStream = channelRead.get(remotePathWithFileName);
+//                 System.out.println("Reading complete!!!!");
+// //                channelWrite.put(pin, localPathWithFileName);
+//                 channelWrite.put(srcInputStream, localPathWithFileName);
+//                 System.out.println("Writing complete!!!!");
+//             } catch (Exception e) {
+//                 System.out.println("Unknown Error: " + e.getMessage());
+//             } finally {
+//                 if(channelRead != null) {
+//                     channelRead.disconnect();
+//                 }
+//                 if(channelWrite != null) {
+//                     channelWrite.disconnect();
+//                 }
+//             }
+//         }
 
-        sessionRead.disconnect();
-        sessionWrite.disconnect();
+//         sessionRead.disconnect();
+//         sessionWrite.disconnect();
 
     }
 
